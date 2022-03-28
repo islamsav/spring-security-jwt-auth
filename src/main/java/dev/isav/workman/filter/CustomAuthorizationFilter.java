@@ -54,7 +54,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     response.setStatus(UNAUTHORIZED.value());
                     Map<String, Object> error = new HashMap<>();
                     error.put("error", exception.getMessage());
-                    error.put("message", "The authorization token is invalid");
+                    error.put("error_message", "The authorization token is invalid");
                     error.put("status", UNAUTHORIZED.value());
                     error.put("path", request.getServletPath());
                     response.setContentType(APPLICATION_JSON_VALUE);
@@ -66,7 +66,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 error.put("error", UNAUTHORIZED.getReasonPhrase());
                 error.put("status", UNAUTHORIZED.value());
                 error.put("path", request.getServletPath());
-                error.put("message", "Authorization token not found");
+                error.put("error_message", "Authorization token not found");
                 response.setStatus(UNAUTHORIZED.value());
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getWriter(), error);
