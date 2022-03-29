@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -32,8 +33,16 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+//        String username = request.getParameter("username");
+//        String password = request.getParameter("password");
+        String username, password;
+        try {
+            Map<String, String> credentials = new ObjectMapper().readValue(request.getInputStream(), Map.class);
+            username = credentials.get("username");
+            password = credentials.get("password");
+        } catch (IOException e) {
+            throw new AuthenticationServiceException(e.getMessage(), e);
+        }
         log.info("Username: {}", username);
         log.info("Password: {}", password);
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
