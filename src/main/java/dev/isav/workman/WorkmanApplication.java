@@ -24,20 +24,20 @@ public class WorkmanApplication {
     @Bean
     CommandLineRunner runner(UserService userService) {
         return args -> {
-          userService.saveRole(new RoleEntity("ROLE_USER"));
-          userService.saveRole(new RoleEntity("ROLE_ADMIN"));
-          userService.saveRole(new RoleEntity("ROLE_MODERATOR"));
-          userService.saveRole(new RoleEntity("ROLE_MANAGER"));
+            userService.saveRole(new RoleEntity("ROLE_USER"));
+            userService.saveRole(new RoleEntity("ROLE_ADMIN"));
+            userService.saveRole(new RoleEntity("ROLE_MODERATOR"));
+            userService.saveRole(new RoleEntity("ROLE_MANAGER"));
 
 
-          userService.saveUser(new UserEntity("Alex", "qwerty", "7896541236", Gender.MALE, new ArrayList<>()));
-          userService.saveUser(new UserEntity("Masha", "pass123", "1231414445", Gender.FEMALE, new ArrayList<>()));
-          userService.saveUser(new UserEntity("Petr", "qazwsxedc", "7896541123", Gender.MALE, new ArrayList<>()));
+            userService.saveUser(new UserEntity("Alex", "qwerty", "7896541236", Gender.MALE, new ArrayList<>()));
+            userService.saveUser(new UserEntity("Masha", "pass123", "1231414445", Gender.FEMALE, new ArrayList<>()));
+            userService.saveUser(new UserEntity("Petr", "qazwsxedc", "7896541123", Gender.MALE, new ArrayList<>()));
 
-          userService.addRoleToUser("Alex", "ROLE_USER");
-          userService.addRoleToUser("Masha", "ROLE_ADMIN");
-          userService.addRoleToUser("Petr", "ROLE_MANAGER");
-          userService.addRoleToUser("Petr", "ROLE_USER");
+            userService.addRoleToUser("Alex", "ROLE_USER");
+            userService.addRoleToUser("Masha", "ROLE_ADMIN");
+            userService.addRoleToUser("Petr", "ROLE_MANAGER");
+            userService.addRoleToUser("Petr", "ROLE_USER");
         };
     }
 
