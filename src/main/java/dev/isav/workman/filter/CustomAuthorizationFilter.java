@@ -5,10 +5,10 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -50,10 +50,10 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                             new UsernamePasswordAuthenticationToken(username, null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request, response);
-                } catch (JWTDecodeException | SignatureVerificationException exception) {
+                } catch (JWTDecodeException | SignatureVerificationException | TokenExpiredException exception) {
+                    Map<String, Object> error = new HashMap<>();
                     response.setHeader("error", exception.getMessage());
                     response.setStatus(UNAUTHORIZED.value());
-                    Map<String, Object> error = new HashMap<>();
                     error.put("error", exception.getMessage());
                     error.put("error_message", "The authorization token is invalid");
                     error.put("status", UNAUTHORIZED.value());
